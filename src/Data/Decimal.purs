@@ -29,11 +29,16 @@ newtype Decimal = Decimal DecimalR
 instance showDecimal :: Show Decimal where
   show (Decimal d) =
     "decimal "
-      <> show d.mantissa
+      <> showInt d.mantissa
       <> " "
-      <> if d.exponent > 0
-         then show d.exponent
-         else "(" <> show d.exponent <> ")"
+      <> showInt d.exponent
+    where
+      showInt i =
+        if i > 0
+        then show i
+        else "(" <> show i <> ")"
+
+
 
 instance eqDecimal :: Eq Decimal where
   eq (Decimal d1) (Decimal d2) =
