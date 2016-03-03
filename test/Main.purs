@@ -65,17 +65,17 @@ testSemiring _ = do
       (a * b) == (a' * b')
         <?> "mul-functionality" <> show [a,a',b,b']
 
---  verify \(a :: a) b c ->
---    (a + b) + c == a + (b + c)
---      <?> "add-associativity" <> show [a,b,c]
+  verify \(a :: a) b c ->
+    (a + b) + c == a + (b + c)
+      <?> "add-associativity" <> show [a,b,c]
 
   verify \(a :: a) ->
     zero + a == a
       <?> "add-identity" <> show [a]
---
---  verify \(a :: a) b ->
---    a + b == b + a
---      <?> "add-commutativity" <> show [a,b]
+
+  verify \(a :: a) b ->
+    a + b == b + a
+      <?> "add-commutativity" <> show [a,b]
 
   verify \(a :: a) b c ->
     (a * b) * c == a * (b * c)
@@ -85,14 +85,14 @@ testSemiring _ = do
     one * a == a && a * one == a
       <?> "mul-identity" <> show [a]
 
---  verify \(a :: a) b c ->
---    a * (b + c) == (a * b) + (a * c)
---      <?> "mul-left-distributivity" <> show [a,b,c]
+  verify \(a :: a) b c ->
+    a * (b + c) == (a * b) + (a * c)
+      <?> "mul-left-distributivity" <> show [a,b,c]
 
---  verify \(a :: a) b c ->
---    (a + b) * c == (a * c) + (b * c)
---      <?> "mul-right-distributivity" <> show [a,b,c]
---
+  verify \(a :: a) b c ->
+    (a + b) * c == (a * c) + (b * c)
+      <?> "mul-right-distributivity" <> show [a,b,c]
+
   verify \(a :: a) ->
     zero * a == zero
       <?> "mul-annihilation" <> show [a]
