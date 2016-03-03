@@ -1,0 +1,29 @@
+{
+  "name": "purescript-decimals",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/slamdata/purescript-decimals.git"
+  },
+  "authors": [
+    "Jon Sterling <jon@jonmsterling.com>"
+  ],
+  "license": "Apache-2.0",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "output"
+  ],
+  "dependencies": {
+    "purescript-arrays": "^0.4.5",
+    "purescript-bigints": "^0.2.1",
+    "purescript-console": "^0.1.0",
+    "purescript-orders": "^0.1.1",
+    "purescript-prelude": "^0.1.4",
+    "purescript-strings": "^0.7.1",
+    "purescript-strongcheck": "^0.14.7"
+  }
+}
