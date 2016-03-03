@@ -27,17 +27,25 @@ prettyDecimal :: Decimal -> String
 #### `decimal`
 
 ``` purescript
-decimal :: Int -> Int -> Decimal
+decimal :: BigInt -> Int -> Decimal
 ```
 
-Construct a decimal number from a mantissa and an exponent.
+Construct a decimal number from a `BigInt` mantissa and an exponent.
 For example, `decimal 34 96` becomes `34e96` and `decimal 20 1`
 becomes `2e2`.
+
+#### `decimal'`
+
+``` purescript
+decimal' :: Int -> Int -> Decimal
+```
+
+The same as `decimal`, except that the mantissa is an `Int`.
 
 #### `getMantissa`
 
 ``` purescript
-getMantissa :: Decimal -> Int
+getMantissa :: Decimal -> BigInt
 ```
 
 Get the mantissa (or significand) from a decimal number.
@@ -48,7 +56,7 @@ Get the mantissa (or significand) from a decimal number.
 getExponent :: Decimal -> Int
 ```
 
-Get the exponent from a decimal number.
+Get the places from a decimal number.
 
 #### `fromInt`
 
@@ -57,5 +65,11 @@ fromInt :: Int -> Decimal
 ```
 
 The integers embed into the decimals.
+
+#### `fromBigInt`
+
+``` purescript
+fromBigInt :: BigInt -> Decimal
+```
 
 

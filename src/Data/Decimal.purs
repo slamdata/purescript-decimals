@@ -203,7 +203,7 @@ instance ringDecimal :: Ring Decimal where
   sub d1 d2 =
     d1 + negateDecimal d2
 
--- | Construct a decimal number from a mantissa and an places.
+-- | Construct a decimal number from a `BigInt` mantissa and an exponent.
 -- | For example, `decimal 34 96` becomes `34e96` and `decimal 20 1`
 -- | becomes `2e2`.
 decimal
@@ -216,6 +216,7 @@ decimal mantissa exponent =
     , places: -exponent
     }
 
+-- | The same as `decimal`, except that the mantissa is an `Int`.
 decimal'
   :: Int
   -> Int
