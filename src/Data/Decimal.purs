@@ -26,6 +26,7 @@ type DecimalR =
 -- | An abstract type for exact computing with decimal numbers of finite expansion.
 newtype Decimal = Decimal DecimalR
 
+
 instance showDecimal :: Show Decimal where
   show (Decimal d) =
     "decimal "
@@ -65,6 +66,19 @@ pow i p =
     Math.pow
       (Data.Int.toNumber i)
       (Data.Int.toNumber p)
+--pow
+--  :: Int
+--  -> Nat
+--  -> Int
+--pow i p =
+--  Rec.tailRec go { acc: 1, pwr : p }
+--  where
+--    go { acc, pwr } =
+--      Debug.Trace.trace ("go " <> show pwr) \_ ->
+--      case pwr of
+--        0 -> E.Right acc
+--        _ -> E.Left { acc: acc * i, pwr : pwr - 1 }
+
 
 data SignedView a
   = Pos a
@@ -133,20 +147,68 @@ instance semiringDecimal :: Semiring Decimal where
       , exponent : zero
       }
 
-  add (Decimal d1) (Decimal d2) =
+  add d1 d2 =
     normalize
-      { mantissa : change d1 + change d2
-      , exponent
+      { mantissa : r.n1 + r.n2
+      , exponent : r.e
       }
     where
-      exponent = O.max d1.exponent d2.exponent
-      change d = mul d.mantissa $ pow 10 (exponent - d.exponent)
+      r = roundMax d1 d2
 
   mul (Decimal d1) (Decimal d2) =
     normalize
       { mantissa : d1.mantissa * d2.mantissa
       , exponent : d1.exponent + d2.exponent
       }
+
+-- is this right?
+divRound :: Int -> Int -> Int
+divRound n1 n2 =
+  if abs r * 2 >= abs n2
+  then n + signum n1
+  else n
+  where
+    signum i =
+      if i >= 0
+      then 1
+      else -1
+    abs i =
+      if i >= 0
+      then i
+      else -i
+    n = n1 `div` n2
+    r = n1 `mod` n2
+
+roundTo
+  :: Int
+  -> DecimalR
+  -> DecimalR
+roundTo exponent d = { mantissa , exponent }
+  where
+    mantissa =
+      case compare exponent d.exponent of
+        LT -> d.mantissa `divRound` divisor
+        EQ -> d.mantissa
+        GT -> d.mantissa * multiplier
+    divisor =
+      pow 10 (d.exponent - exponent)
+    multiplier =
+      pow 10 (exponent - d.exponent)
+
+roundMax
+  :: Decimal
+  -> Decimal
+  -> { e :: Int, n1 :: Int, n2 :: Int }
+roundMax (Decimal d1) (Decimal d2) = { e, n1, n2 }
+  where
+    e = O.max d1.exponent d2.exponent
+    d1' = roundTo e d1
+    d2' = roundTo e d2
+    n1 = d1'.mantissa
+    n2 = d2'.mantissa
+
+hole :: forall a. a
+hole = Unsafe.Coerce.unsafeCoerce "hole"
 
 negateDecimal
   :: Decimal
@@ -195,3 +257,5 @@ fromInt i =
     { mantissa : i
     , exponent : 0
     }
+
+
