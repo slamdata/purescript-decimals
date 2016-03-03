@@ -33,13 +33,26 @@ type DecimalR =
 -- | An abstract type for exact computing with decimal numbers of finite expansion.
 newtype Decimal = Decimal DecimalR
 
+-- | Get the mantissa (or significand) from a decimal number.
+getMantissa
+  :: Decimal
+  -> BI.BigInt
+getMantissa (Decimal d) =
+  d.mantissa
+
+-- | Get the places from a decimal number.
+getExponent
+  :: Decimal
+  -> Int
+getExponent (Decimal d) =
+  - d.places
 
 instance showDecimal :: Show Decimal where
-  show (Decimal d) =
+  show d =
     "decimal "
-      <> showInt d.mantissa
+      <> showInt (getMantissa d)
       <> " "
-      <> showInt d.places
+      <> showInt (getExponent d)
     where
       showInt :: forall i. (Show i, Ring i, Ord i) => i -> String
       showInt i =
@@ -223,20 +236,6 @@ decimal'
   -> Decimal
 decimal' =
   decimal <<< BI.fromInt
-
--- | Get the mantissa (or significand) from a decimal number.
-getMantissa
-  :: Decimal
-  -> BI.BigInt
-getMantissa (Decimal d) =
-  d.mantissa
-
--- | Get the places from a decimal number.
-getExponent
-  :: Decimal
-  -> Int
-getExponent (Decimal d) =
-  - d.places
 
 -- | The integers embed into the decimals.
 fromInt
