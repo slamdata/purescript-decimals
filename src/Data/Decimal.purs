@@ -93,13 +93,16 @@ prettyDecimal (Decimal d) =
         Neg e ->
           let
             m = show d.mantissa
-            zeroes = S.fromCharArray $ A.replicate (O.max 0 (e - S.length m)) '0'
-            arr = S.toCharArray $ zeroes <> m
+            m' = M.fromMaybe m $ S.stripPrefix "-" $ m
+            l = if d.mantissa > 0 then S.length m else S.length m' - 1
+            zeroes = S.fromCharArray $ A.replicate (O.max 0 (e - l)) '0'
+            arr = S.toCharArray $ zeroes <> m'
             i = A.length arr - e
             arr' = M.fromMaybe [] $ A.insertAt i '.' arr
-            m' = S.fromCharArray arr'
+            m'' = S.fromCharArray arr'
+            sign = if d.mantissa > 0 then "" else "-"
           in
-            if i == 0 then "0" <> m' else m'
+            sign <> if i == 0 then "0" <> m'' else m''
         Zero -> show d.mantissa
 
 normalize
