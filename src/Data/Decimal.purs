@@ -193,9 +193,6 @@ roundMax (Decimal d1) (Decimal d2) = { e, n1, n2 }
     n1 = d1'.mantissa
     n2 = d2'.mantissa
 
-hole :: forall a. a
-hole = Unsafe.Coerce.unsafeCoerce "hole"
-
 negateDecimal
   :: Decimal
   -> Decimal
