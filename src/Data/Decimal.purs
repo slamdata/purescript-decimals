@@ -116,8 +116,8 @@ normalize =
 
 instance arbitraryDecimal :: SC.Arbitrary Decimal where
   arbitrary = do
-    mantissa <- BI.fromInt <$> Gen.chooseInt (-100.0) 100.0
-    places <- Gen.chooseInt (-20.0) 20.0
+    mantissa <- BI.fromInt <$> Gen.chooseInt (-100000.0) 100000.0
+    places <- Gen.chooseInt (-200.0) 200.0
     pure $ normalize { mantissa, places }
 
 instance semiringDecimal :: Semiring Decimal where
